@@ -1,21 +1,8 @@
 import { useEffect, useState } from 'react'
 import './App.css'
 import { queryClient } from './main'
-import { useQuery } from '@tanstack/react-query'
+import usePokemons from './hooks/usePokemons';
 
-
-async function fetchPokemons() {
-  const resp = await fetch('https://pokeapi.co/api/v2/pokemon');
-  const data = await resp.json();
-  return data;
-}
-
-function usePokemons() {
-  return useQuery({
-    queryKey: 'pokemons',
-    queryFn: () => fetchPokemons(),
-  });
-}
 
 function PokemonsUseEffect() {
   const [pokemons, setPokemons] = useState([]);
@@ -41,7 +28,8 @@ function PokemonsUseEffect() {
 }
 
 function Pokemons() {
-  const { data, isLoading } = usePokemons();
+  const { data, isLoading } = usePokemons({});
+  console.log({data})
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -49,7 +37,7 @@ function Pokemons() {
 
   return (
     <div>
-      {data?.results.map((pokemon) => (
+      {data?.results?.map((pokemon) => (
         <p key={pokemon.name}>{pokemon.name}</p>
       ))}
     </div>
@@ -58,22 +46,9 @@ function Pokemons() {
 
 
 function App() {
-  const [is2ndRender, setIs2ndRender] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIs2ndRender(true);
-    }, 100);
-  }, []);
-
   return (
     <>
       <Pokemons />
-      <Pokemons />
-      <Pokemons />
-      <Pokemons />
-      <Pokemons />
-      {is2ndRender && <Pokemons />}
     </>
   )
 }
