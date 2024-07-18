@@ -1,33 +1,19 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import './index.css'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
-import PrefetchPaginatedTable from './pages/PrefetchPaginatedTable'
-
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { BrowserRouter } from "react-router-dom";
 export const queryClient = new QueryClient();
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-  },
-  {
-    path: "/table",
-    element: <PrefetchPaginatedTable />,
-  },
-]);
-
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <ReactQueryDevtools initialIsOpen={true} />
-    </QueryClientProvider>
+    <BrowserRouter>
+      <QueryClientProvider client={queryClient}>
+          <App />
+        <ReactQueryDevtools initialIsOpen={true} />
+      </QueryClientProvider>
+  </BrowserRouter>
   </React.StrictMode>,
-)
+);
